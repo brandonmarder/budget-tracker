@@ -27,7 +27,6 @@ def getTotalBudget(categoryInfo):
 	
 	return budget
 
-#Needs categories dict.
 def sumBudgets(categories):
 	budgets = {}
 	for key in categories:
