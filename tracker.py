@@ -120,7 +120,7 @@ def main():
 			if row['Category'] not in categories:
 				categories[row['Category']] = []
 			row['Date'] = toDate(row['Date'])
-			row['Amount'] = int(row['Amount'])
+			row['Amount'] = float(row['Amount'])
 			categories[row['Category']].append(row)
 	summedBudgets = sumBudgets(categories)	
 	
@@ -135,7 +135,7 @@ def main():
 					expenses[row['Category']] = []
 				deductFrom = row['From']
 				addTo = row['To']
-				transferAmount = int(row['Amount'])
+				transferAmount = float(row['Amount'])
 				#Adding to account
 				summedBudgets[addTo] += transferAmount
 				#Deducting from account
@@ -143,7 +143,7 @@ def main():
 				continue
 			if row['Category'] not in expenses:
 				expenses[row['Category']] = []
-			row['Amount'] = int(row['Amount'])
+			row['Amount'] = float(row['Amount'])
 			row['Date'] = toDate(row['Date'])
 			row['Transfer'] = False
 			expenses[row['Category']].append(row)
@@ -152,31 +152,31 @@ def main():
 	summedExpenses = sumExpenses(categories, expenses)
 	
 	deltas = calculateDeltas(summedExpenses, summedBudgets)
-	categoryNames = deltas.keys()
+	categoryNames = list(deltas.keys())
 	categoryNames.sort()
 	monthToDateExpenses = calculateExpensesByMonth(expenses, DAY_NOW, 0)
 	priorMonthExpenses = calculateExpensesByMonth(expenses, DAY_NOW, 1)
 	#calculateBudgetDelta = askUserToDetermineOverBudget()
 	#if calculateBudgetDelta == 'y'
 	#	determineIfOverBudget()
-	print
-	print ("Total expenses month to date:")
+	print('')
+	print("Total expenses month to date:")
 	for name in sorted(monthToDateExpenses):
-		print name, monthToDateExpenses[name]
-	print ("Total: %d" % sum(monthToDateExpenses.values()))
-	print
-	print ("Total expenses prior month:")
+		print('%s %.2f' % (name, monthToDateExpenses[name]))
+	print("Total: %.2f" % sum(monthToDateExpenses.values()))
+	print('')
+	print("Total expenses prior month:")
 	for name in sorted(priorMonthExpenses):
-		print name, priorMonthExpenses[name]
-	print ("Total: %d" % sum(priorMonthExpenses.values()))
-	print
-	print ("Amount remaining in budget:")
+		print('%s %.2f' % (name, priorMonthExpenses[name]))
+	print("Total: %.2f" % sum(priorMonthExpenses.values()))
+	print('')
+	print("Amount remaining in budget:")
 	for name in categoryNames:
-		print name, deltas[name]
-	print ("Total: %d" % sum(deltas.values()))
-	print 
+		print('%s %.2f' % (name, deltas[name]))
+	print("Total: %.2f" % sum(deltas.values()))
+	print('')
 	
-
+#test
 		
 if __name__ == '__main__':
 	main()
